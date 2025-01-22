@@ -32,7 +32,7 @@ public class JournalEntryService {
     //        System.out.println(userEntry);
             JournalEntry saved = journalEntryRepository.save(journalEntry);
             userEntry.getJournalEntries().add(saved);
-//            userEntry.setUserName(null);
+            userEntry.setUserName(null);
             userService.saveEntry(userEntry);
             return new ResponseEntity<>(HttpStatus.OK);
         }

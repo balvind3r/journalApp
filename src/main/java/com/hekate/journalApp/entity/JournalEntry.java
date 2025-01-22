@@ -14,6 +14,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Document(collection = "journal_entries")
+//@Document
 @Data
 public class JournalEntry {
     @Id

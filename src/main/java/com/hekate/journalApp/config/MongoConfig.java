@@ -2,6 +2,9 @@ package com.hekate.journalApp.config;
 
 import com.hekate.journalApp.service.ZonedDateTimeReadConverter;
 import com.hekate.journalApp.service.ZonedDateTimeWriteConverter;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
@@ -19,9 +22,11 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     protected String getDatabaseName() {
-        return "journalAppDB"; // Replace with your actual database name
+        return "journalApp"; // Replace with your actual database name
     }
 
+    @Value("${spring.data.mongodb.uri}")
+    String connectionString;
     @Override
     public MongoCustomConversions customConversions() {
         return new MongoCustomConversions(Arrays.asList(
@@ -33,5 +38,11 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     @Bean
     public PlatformTransactionManager ManagedDB(MongoDatabaseFactory dbFactory){
         return new MongoTransactionManager(dbFactory);
+    }
+
+    @Bean
+    @Override
+    public MongoClient mongoClient() {
+        return MongoClients.create(connectionString);
     }
 }
